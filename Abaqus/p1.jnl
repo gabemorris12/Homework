@@ -1,0 +1,412 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.openStep(
+    'C:/Users/gmbra/Downloads/Senior First Semester/FEA/Homework 3/Abaqus/p1.STEP'
+    , scaleFromFile=OFF)
+mdb.models['Model-1'].PartFromGeometryFile(combine=False, dimensionality=
+    THREE_D, geometryFile=mdb.acis, name='p1', type=DEFORMABLE_BODY)
+mdb.models['Model-1'].Material(name='Steel')
+mdb.models['Model-1'].materials['Steel'].Elastic(table=((29000000.0, 32.0), ))
+mdb.models['Model-1'].materials['Steel'].elastic.setValues(table=((29000000.0, 
+    0.32), ))
+mdb.models['Model-1'].HomogeneousSolidSection(material='Steel', name=
+    'Section-1', thickness=None)
+mdb.models['Model-1'].parts['p1'].Set(cells=
+    mdb.models['Model-1'].parts['p1'].cells.getSequenceFromMask(('[#1 ]', ), ), 
+    name='Set-1')
+mdb.models['Model-1'].parts['p1'].SectionAssignment(offset=0.0, offsetField='', 
+    offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['p1'].sets['Set-1'], sectionName='Section-1', 
+    thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['Model-1'].rootAssembly.Instance(dependent=OFF, name='p1-1', part=
+    mdb.models['Model-1'].parts['p1'])
+mdb.models['Model-1'].StaticStep(name='Step-1', previous='Initial')
+mdb.models['Model-1'].rootAssembly.Set(faces=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].faces.getSequenceFromMask(
+    ('[#20 ]', ), ), name='Set-1')
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, createStepName='Initial', 
+    distributionType=UNIFORM, fieldName='', localCsys=None, name='BC-1', 
+    region=mdb.models['Model-1'].rootAssembly.sets['Set-1'], u1=UNSET, u2=SET, 
+    u3=SET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
+mdb.models['Model-1'].rootAssembly.PartitionEdgeByPoint(edge=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].edges[11], point=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].edges[11], MIDDLE))
+mdb.models['Model-1'].rootAssembly.PartitionEdgeByPoint(edge=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].edges[21], point=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].edges[21], MIDDLE))
+mdb.models['Model-1'].rootAssembly.Set(name='Set-2', vertices=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].vertices.getSequenceFromMask(
+    ('[#200 ]', ), ))
+mdb.models['Model-1'].ConcentratedForce(cf1=500.0, createStepName='Step-1', 
+    distributionType=UNIFORM, field='', localCsys=None, name='Load-1', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-2'])
+mdb.models['Model-1'].rootAssembly.Set(name='Set-3', vertices=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].vertices.getSequenceFromMask(
+    ('[#10000 ]', ), ))
+mdb.models['Model-1'].ConcentratedForce(cf1=-500.0, createStepName='Step-1', 
+    distributionType=UNIFORM, field='', localCsys=None, name='Load-2', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-3'])
+mdb.models['Model-1'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'], ), size=0.0625)
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'], ))
+mdb.Job(atTime=None, contactPrint=OFF, description='', echoPrint=OFF, 
+    explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, 
+    memory=90, memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Job-1', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\Job-1.odb', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 18152, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 320.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 54.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'Solver problem. Numerical singularity when processing node P1-1.290 D.O.F. 1 ratio = 7.18037E+12.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Tue Feb 22 19:11:04 2022', 
+    'jobName': 'Job-1'})
+# Save by gmbra on 2022_02_22-19.11.16; build 2021 2020_03_06-08.50.37 167380
+# Save by gmbra on 2022_02_22-19.12.38; build 2021 2020_03_06-08.50.37 167380
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+del mdb.models['Model-1'].boundaryConditions['BC-1']
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\Job-1.odb', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 18152, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 320.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 54.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'Solver problem. Numerical singularity when processing node P1-1.556 D.O.F. 2 ratio = 8.35271E+09.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'Solver problem. Numerical singularity when processing node P1-1.556 D.O.F. 3 ratio = 811.081E+09  .', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'Solver problem. Numerical singularity when processing node P1-1.290 D.O.F. 1 ratio = 15.7473E+12 .', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'Solver problem. Numerical singularity when processing node P1-1.290 D.O.F. 2 ratio = 5.55073E+12.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'Solver problem. Numerical singularity when processing node P1-1.290 D.O.F. 3 ratio = 4.92062E+12.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Tue Feb 22 19:14:51 2022', 
+    'jobName': 'Job-1'})
+mdb.models['Model-1'].rootAssembly.Set(faces=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].faces.getSequenceFromMask(
+    ('[#20 ]', ), ), name='Set-4')
+mdb.models['Model-1'].DisplacementBC(amplitude=UNSET, createStepName='Initial', 
+    distributionType=UNIFORM, fieldName='', localCsys=None, name='BC-1', 
+    region=mdb.models['Model-1'].rootAssembly.sets['Set-4'], u1=UNSET, u2=SET, 
+    u3=SET, ur1=UNSET, ur2=UNSET, ur3=UNSET)
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\Job-1.odb', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 6348, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 320.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 54.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'Solver problem. Numerical singularity when processing node P1-1.290 D.O.F. 1 ratio = 7.18037E+12.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Tue Feb 22 19:15:44 2022', 
+    'jobName': 'Job-1'})
+mdb.models['Model-1'].rootAssembly.deleteMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Model-1'].rootAssembly.setMeshControls(elemShape=TET, regions=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), technique=FREE)
+mdb.models['Model-1'].rootAssembly.setElementType(elemTypes=(ElemType(
+    elemCode=C3D20R, elemLibrary=STANDARD), ElemType(elemCode=C3D15, 
+    elemLibrary=STANDARD), ElemType(elemCode=C3D10, elemLibrary=STANDARD)), 
+    regions=(
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'], ))
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\Job-1.odb', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 5792, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 3609.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 396.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'Solver problem. Numerical singularity when processing node P1-1.243 D.O.F. 1 ratio = 7.69626E+12.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Tue Feb 22 19:23:03 2022', 
+    'jobName': 'Job-1'})
+mdb.models['Model-1'].rootAssembly.deleteMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Model-1'].rootAssembly.setMeshControls(algorithm=ADVANCING_FRONT, 
+    elemShape=HEX, regions=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), technique=SWEEP)
+mdb.models['Model-1'].rootAssembly.setElementType(elemTypes=(ElemType(
+    elemCode=C3D8R, elemLibrary=STANDARD), ElemType(elemCode=C3D6, 
+    elemLibrary=STANDARD), ElemType(elemCode=C3D4, elemLibrary=STANDARD)), 
+    regions=(
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'], ))
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\Job-1.odb', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 10808, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 320.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 54.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'Solver problem. Numerical singularity when processing node P1-1.290 D.O.F. 1 ratio = 7.18037E+12.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Tue Feb 22 19:23:42 2022', 
+    'jobName': 'Job-1'})
+mdb.models['Model-1'].loads.delete(('Load-1', 'Load-2'))
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-1', side1Faces=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].faces.getSequenceFromMask(
+    ('[#10 ]', ), ))
+mdb.models['Model-1'].SurfaceTraction(createStepName='Step-1', directionVector=
+    (mdb.models['Model-1'].rootAssembly.instances['p1-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].edges[6], MIDDLE), 
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].vertices[5]), 
+    distributionType=UNIFORM, field='', localCsys=None, magnitude=421.0526216, 
+    name='Load-1', region=mdb.models['Model-1'].rootAssembly.surfaces['Surf-1']
+    , traction=GENERAL)
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-2', side1Faces=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].faces.getSequenceFromMask(
+    ('[#40 ]', ), ))
+mdb.models['Model-1'].SurfaceTraction(createStepName='Step-1', directionVector=
+    (mdb.models['Model-1'].rootAssembly.instances['p1-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].edges[6], MIDDLE), 
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].vertices[2]), 
+    distributionType=UNIFORM, field='', localCsys=None, magnitude=421.0526216, 
+    name='Load-2', region=
+    mdb.models['Model-1'].rootAssembly.surfaces['Surf-2'])
+mdb.models['Model-1'].loads['Load-2'].setValues(traction=GENERAL)
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\Job-1.odb', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 6172, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 320.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 54.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'Solver problem. Numerical singularity when processing node P1-1.290 D.O.F. 1 ratio = 7.18037E+12.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Tue Feb 22 19:39:01 2022', 
+    'jobName': 'Job-1'})
+mdb.models['Model-1'].loads.delete(('Load-2', 'Load-1'))
+mdb.models['Model-1'].rootAssembly.Set(name='Set-9', vertices=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].vertices.getSequenceFromMask(
+    ('[#200 ]', ), ))
+mdb.models['Model-1'].ConcentratedForce(cf1=500.0, createStepName='Step-1', 
+    distributionType=UNIFORM, field='', localCsys=None, name='Load-1', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-9'])
+mdb.models['Model-1'].rootAssembly.Set(name='Set-10', vertices=
+    mdb.models['Model-1'].rootAssembly.instances['p1-1'].vertices.getSequenceFromMask(
+    ('[#10000 ]', ), ))
+mdb.models['Model-1'].ConcentratedForce(cf1=-500.0, createStepName='Step-1', 
+    distributionType=UNIFORM, field='', localCsys=None, name='Load-2', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-10'])
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\temp\\Job-1.odb', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 5316, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 320.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 54.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': STANDARD_PHASE, 
+    'message': 'Solver problem. Numerical singularity when processing node P1-1.290 D.O.F. 1 ratio = 7.18037E+12.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Tue Feb 22 19:41:09 2022', 
+    'jobName': 'Job-1'})
+# Save by gmbra on 2022_02_22-19.42.09; build 2021 2020_03_06-08.50.37 167380
