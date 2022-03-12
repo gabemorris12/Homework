@@ -33,7 +33,10 @@ class SlipSystem:
 
     def generate_table(self, print_=False):
         n = self.n + 1
-        lines = [fr'\begin{{tabular}}{{{"l"*n}}}',
+        lines = [r'\begin{center}',
+                 r'\addtolength{\leftskip}{-2cm}',
+                 r'\addtolength{\rightskip}{-2cm}',
+                 fr'\begin{{tabular}}{{{"l"*n}}}',
                  fr'\multicolumn{{{n}}}{{c}}{{Force Direction: {self.format_vector(self.F)}}} \\',
                  r'\toprule']
         row1 = ['Slip Plane']
@@ -54,7 +57,7 @@ class SlipSystem:
         lines.append(' & '.join(row1) + r' \\')
         lines.append(r'\midrule')
         [lines.append(' & '.join(row) + r' \\') for row in [row2, row3, row4, row5]]
-        lines.append(r'\end{tabular}')
+        lines.extend([r'\end{tabular}', r'\end{center}'])
         latex_string = '\n'.join(lines)
         if print_:
             print(latex_string)
@@ -63,9 +66,12 @@ class SlipSystem:
     @staticmethod
     def format_vector(vector, plane=False):
         items = []
+        multiple = any([abs(i) >= 10 for i in vector])
         for i in vector:
             if i >= 0:
                 items.append(str(i))
+            elif multiple:
+                items.append(r'\overline{' + str(abs(i)) + '}')
             else:
                 items.append(r'\bar{' + str(abs(i)) + '}')
         if plane:
@@ -74,7 +80,9 @@ class SlipSystem:
             head, tail = '$[', ']$'
         items.insert(0, head)
         items.append(tail)
-        return ''.join(items)
+        if not multiple:
+            return ''.join(items)
+        return r'\,'.join(items)
 
     @staticmethod
     def mag(vector):
