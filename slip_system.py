@@ -8,7 +8,8 @@ class SlipSystem:
         """
         :param force_dir: An array with 3 items indicating the direction of the force. The magnitude is of no concern.
         :param slip_planes: A list of slip planes.
-        :param slip_dirs: Each argument of slip_dirs should be a list of lists in which each list is a slip direction on the plane corresponding to slip_planes
+        :param slip_dirs: Each argument of slip_dirs should be a list of lists in which each list is a slip direction
+                          on the plane corresponding to slip_planes
         """
 
         assert len(slip_planes) == len(slip_dirs), 'Number of slip planes does not match input slip directions.'
