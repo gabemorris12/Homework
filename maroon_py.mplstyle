@@ -1,5 +1,5 @@
-# Consecutive Colors
+# Python Scripts Default Style
 axes.prop_cycle: cycler('color', ['maroon', 'black', 'deepskyblue', 'darkgrey', '000080', '008000', '008080', '808000', '804000'])
 axes.grid: true
 
-figure.dpi: 240  # This is only necessary for jupyter notebooks. Comment out if not running on jupyter notebook.
+savefig.dpi: 240
