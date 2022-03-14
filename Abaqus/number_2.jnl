@@ -1,0 +1,703 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models.changeKey(fromName='Model-1', toName='Mesh1')
+mdb.openStep(
+    'C:/Users/gmbra/Downloads/Senior First Semester/FEA/Homework 4/Abaqus/paddle_wheel.STEP'
+    , scaleFromFile=OFF)
+mdb.models['Mesh1'].PartFromGeometryFile(combine=False, dimensionality=THREE_D, 
+    geometryFile=mdb.acis, name='paddle_wheel', type=DEFORMABLE_BODY)
+# Save by gmbra on 2022_03_13-18.20.07; build 2021 2020_03_06-08.50.37 167380
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Mesh1'].Material(name='Steel')
+mdb.models['Mesh1'].materials['Steel'].Elastic(table=((30000000.0, 0.3), ))
+del mdb.models['Mesh1'].parts['paddle_wheel']
+mdb.openStep(
+    'C:/Users/gmbra/Downloads/Senior First Semester/FEA/Homework 4/Abaqus/paddle_wheel.STEP'
+    , scaleFromFile=OFF)
+mdb.models['Mesh1'].PartFromGeometryFile(combine=False, dimensionality=THREE_D, 
+    geometryFile=mdb.acis, name='paddle_wheel', type=DEFORMABLE_BODY)
+mdb.models['Mesh1'].HomogeneousSolidSection(material='Steel', name='Section-1', 
+    thickness=None)
+mdb.models['Mesh1'].parts['paddle_wheel'].Set(cells=
+    mdb.models['Mesh1'].parts['paddle_wheel'].cells.getSequenceFromMask((
+    '[#1 ]', ), ), name='Set-1')
+mdb.models['Mesh1'].parts['paddle_wheel'].SectionAssignment(offset=0.0, 
+    offsetField='', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Mesh1'].parts['paddle_wheel'].sets['Set-1'], sectionName=
+    'Section-1', thicknessAssignment=FROM_SECTION)
+mdb.models['Mesh1'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['Mesh1'].rootAssembly.Instance(dependent=OFF, name='paddle_wheel-1', 
+    part=mdb.models['Mesh1'].parts['paddle_wheel'])
+# Save by gmbra on 2022_03_13-18.37.32; build 2021 2020_03_06-08.50.37 167380
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Mesh1'].StaticStep(name='Step-1', previous='Initial')
+mdb.models['Mesh1'].rootAssembly.Set(faces=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].faces.getSequenceFromMask(
+    ('[#4010 ]', ), ), name='Set-1')
+mdb.models['Mesh1'].EncastreBC(createStepName='Step-1', localCsys=None, name=
+    'BC-1', region=mdb.models['Mesh1'].rootAssembly.sets['Set-1'])
+mdb.models['Mesh1'].rootAssembly.Surface(name='Surf-1', side1Faces=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].faces.getSequenceFromMask(
+    ('[#40000000 ]', ), ))
+mdb.models['Mesh1'].SurfaceTraction(createStepName='Step-1', directionVector=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].vertices[65], 
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].vertices[68]), 
+    distributionType=UNIFORM, field='', localCsys=None, magnitude=130.0, name=
+    'Load-1', region=mdb.models['Mesh1'].rootAssembly.surfaces['Surf-1'], 
+    traction=GENERAL)
+# Save by gmbra on 2022_03_13-18.44.45; build 2021 2020_03_06-08.50.37 167380
+# Save by gmbra on 2022_03_13-18.44.57; build 2021 2020_03_06-08.50.37 167380
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+del mdb.models['Mesh1'].boundaryConditions['BC-1']
+mdb.models['Mesh1'].rootAssembly.Set(faces=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].faces.getSequenceFromMask(
+    ('[#4010 ]', ), ), name='Set-2')
+mdb.models['Mesh1'].EncastreBC(createStepName='Initial', localCsys=None, name=
+    'BC-1', region=mdb.models['Mesh1'].rootAssembly.sets['Set-2'])
+mdb.models['Mesh1'].loads['Load-1'].setValues(magnitude=3.02)
+# Save by gmbra on 2022_03_13-19.49.47; build 2021 2020_03_06-08.50.37 167380
+# Save by gmbra on 2022_03_13-19.56.00; build 2021 2020_03_06-08.50.37 167380
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Mesh1'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'], ), size=0.75)
+mdb.models['Mesh1'].rootAssembly.setMeshControls(elemShape=TET, regions=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), technique=FREE)
+mdb.models['Mesh1'].rootAssembly.setElementType(elemTypes=(ElemType(
+    elemCode=C3D20R, elemLibrary=STANDARD), ElemType(elemCode=C3D15, 
+    elemLibrary=STANDARD), ElemType(elemCode=C3D10, elemLibrary=STANDARD)), 
+    regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), ))
+mdb.models['Mesh1'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh1'].rootAssembly.deleteMesh(regions=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Mesh1'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh1'].rootAssembly.deleteMesh(regions=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Mesh1'].rootAssembly.PartitionEdgeByPoint(edge=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].edges[73], 
+    point=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].InterestingPoint(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].edges[73], 
+    MIDDLE))
+mdb.models['Mesh1'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'], ), size=1.5)
+mdb.models['Mesh1'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh1'].rootAssembly.deleteMesh(regions=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Mesh1'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'], ), size=3.0)
+mdb.models['Mesh1'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.Job(atTime=None, contactPrint=OFF, description='Mesh Size: 3', echoPrint=
+    OFF, explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF
+    , memory=90, memoryUnits=PERCENTAGE, model='Mesh1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Job-1', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Mesh Size: 3', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': '16 elements are distorted. Either the isoparametric angles are out of the suggested limits or the triangular or tetrahedral quality measure is bad. The elements have been identified in element set WarnElemDistorted.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Users\\gmbra\\Downloads\\Senior First Semester\\FEA\\Homework 4\\Abaqus\\Job-1.odb', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 30872, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 190.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 36.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Sun Mar 13 20:26:50 2022', 
+    'jobName': 'Job-1'})
+mdb.Model(name='Mesh2', objectToCopy=mdb.models['Mesh1'])
+mdb.models['Mesh2'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Mesh2'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh2'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh2'].rootAssembly.instances['paddle_wheel-1'], ), size=2.5)
+mdb.models['Mesh2'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh2'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh2'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Mesh2'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh2'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh2'].rootAssembly.instances['paddle_wheel-1'], ), size=2.0)
+mdb.models['Mesh2'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh2'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.Job(atTime=None, contactPrint=OFF, description='Mesh Size: 2', echoPrint=
+    OFF, explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF
+    , memory=90, memoryUnits=PERCENTAGE, model='Mesh2', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Job-2', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+# Save by gmbra on 2022_03_13-20.52.22; build 2021 2020_03_06-08.50.37 167380
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.jobs['Job-2'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-2']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Mesh Size: 2', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Users\\gmbra\\Downloads\\Senior First Semester\\FEA\\Homework 4\\Abaqus\\Job-2.odb', 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 45044, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-2', 'memory': 288.0})
+mdb.jobs['Job-2']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MINIMUM_MEMORY, {'minimum_memory': 52.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-2', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-2']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(JOB_COMPLETED, {'time': 'Sun Mar 13 20:53:11 2022', 
+    'jobName': 'Job-2'})
+# Save by gmbra on 2022_03_13-20.57.42; build 2021 2020_03_06-08.50.37 167380
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.Model(name='Mesh3', objectToCopy=mdb.models['Mesh2'])
+mdb.models['Mesh3'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Mesh3'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh3'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh3'].rootAssembly.instances['paddle_wheel-1'], ), size=1.0)
+mdb.models['Mesh3'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh3'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.Job(atTime=None, contactPrint=OFF, description='Mesh Size: 1', echoPrint=
+    OFF, explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF
+    , memory=90, memoryUnits=PERCENTAGE, model='Mesh3', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Job-3', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.jobs['Job-3'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-3']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Mesh Size: 1', 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Users\\gmbra\\Downloads\\Senior First Semester\\FEA\\Homework 4\\Abaqus\\Job-3.odb', 
+    'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 51564, 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-3', 'memory': 1350.0})
+mdb.jobs['Job-3']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(MINIMUM_MEMORY, {'minimum_memory': 181.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-3', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-3']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(JOB_COMPLETED, {'time': 'Sun Mar 13 21:00:47 2022', 
+    'jobName': 'Job-3'})
+mdb.Model(name='Mesh4', objectToCopy=mdb.models['Mesh3'])
+mdb.models['Mesh4'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh4'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ), size=0.5)
+mdb.models['Mesh4'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.Job(atTime=None, contactPrint=OFF, description='Mesh Size: 0.5', echoPrint=
+    OFF, explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF
+    , memory=90, memoryUnits=PERCENTAGE, model='Mesh4', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Job-4', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.jobs['Job-4'].submit(consistencyChecking=OFF)
+#* Academic Teaching license is restricted to 250000 nodes.
+#* Academic Teaching license is restricted to 250000 nodes.
+#* Academic Teaching license is restricted to 250000 nodes.
+mdb.models['Mesh4'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh4'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ), size=0.75)
+mdb.models['Mesh4'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.jobs['Job-4'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-4']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Mesh Size: 0.5', 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Users\\gmbra\\Downloads\\Senior First Semester\\FEA\\Homework 4\\Abaqus\\Job-4.odb', 
+    'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 36472, 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-4', 'memory': 3760.0})
+mdb.jobs['Job-4']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(MINIMUM_MEMORY, {'minimum_memory': 434.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-4', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-4']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(JOB_COMPLETED, {'time': 'Sun Mar 13 21:08:33 2022', 
+    'jobName': 'Job-4'})
+mdb.models['Mesh1'].rootAssembly.deleteMesh(regions=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Mesh1'].rootAssembly.PartitionEdgeByParam(edges=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].edges.getSequenceFromMask(
+    ('[#0:2 #800 ]', ), ), parameter=0.5)
+mdb.models['Mesh1'].rootAssembly.PartitionEdgeByParam(edges=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].edges.getSequenceFromMask(
+    ('[#0:2 #800 ]', ), ), parameter=0.5)
+mdb.models['Mesh1'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Mesh Size: 3', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': '24 elements are distorted. Either the isoparametric angles are out of the suggested limits or the triangular or tetrahedral quality measure is bad. The elements have been identified in element set WarnElemDistorted.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Users\\gmbra\\Downloads\\Senior First Semester\\FEA\\Homework 4\\Abaqus\\Job-1.odb', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 7944, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 205.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 39.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Sun Mar 13 21:17:15 2022', 
+    'jobName': 'Job-1'})
+mdb.models['Mesh1'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh1'].rootAssembly.deleteSeeds(regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh1'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'], ), size=3.0)
+mdb.models['Mesh1'].rootAssembly.setMeshControls(algorithm=ADVANCING_FRONT, 
+    elemShape=HEX, regions=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), technique=SWEEP)
+mdb.models['Mesh1'].rootAssembly.setElementType(elemTypes=(ElemType(
+    elemCode=C3D8R, elemLibrary=STANDARD), ElemType(elemCode=C3D6, 
+    elemLibrary=STANDARD), ElemType(elemCode=C3D4, elemLibrary=STANDARD)), 
+    regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), ))
+del mdb.models['Mesh1'].rootAssembly.features['paddle_wheel-1']
+mdb.models['Mesh1'].parts['paddle_wheel'].seedPart(deviationFactor=0.1, 
+    minSizeFactor=0.1, size=3.0)
+mdb.models['Mesh1'].parts['paddle_wheel'].setMeshControls(elemShape=TET, 
+    regions=
+    mdb.models['Mesh1'].parts['paddle_wheel'].cells.getSequenceFromMask((
+    '[#1 ]', ), ), technique=FREE)
+mdb.models['Mesh1'].parts['paddle_wheel'].setElementType(elemTypes=(ElemType(
+    elemCode=C3D20R, elemLibrary=STANDARD), ElemType(elemCode=C3D15, 
+    elemLibrary=STANDARD), ElemType(elemCode=C3D10, elemLibrary=STANDARD)), 
+    regions=(
+    mdb.models['Mesh1'].parts['paddle_wheel'].cells.getSequenceFromMask((
+    '[#1 ]', ), ), ))
+mdb.models['Mesh1'].parts['paddle_wheel'].generateMesh()
+# Save by gmbra on 2022_03_13-21.39.49; build 2021 2020_03_06-08.50.37 167380
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Mesh1'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'], ), size=3.0)
+mdb.models['Mesh1'].rootAssembly.setMeshControls(elemShape=TET, regions=
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), technique=FREE)
+mdb.models['Mesh1'].rootAssembly.setElementType(elemTypes=(ElemType(
+    elemCode=C3D20R, elemLibrary=STANDARD), ElemType(elemCode=C3D15, 
+    elemLibrary=STANDARD), ElemType(elemCode=C3D10, elemLibrary=STANDARD)), 
+    regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), ))
+mdb.models['Mesh1'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh1'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.Job(atTime=None, contactPrint=OFF, description='Size: 3', echoPrint=OFF, 
+    explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, 
+    memory=90, memoryUnits=PERCENTAGE, model='Mesh1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Job-1', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Size: 3', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': '10 elements are distorted. Either the isoparametric angles are out of the suggested limits or the triangular or tetrahedral quality measure is bad. The elements have been identified in element set WarnElemDistorted.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Users\\gmbra\\Downloads\\Senior First Semester\\FEA\\Homework 4\\Abaqus\\Job-1.odb', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 22328, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 191.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 37.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Sun Mar 13 21:44:42 2022', 
+    'jobName': 'Job-1'})
+mdb.Model(name='Mesh2', objectToCopy=mdb.models['Mesh1'])
+mdb.models['Mesh2'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Mesh2'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh2'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh2'].rootAssembly.instances['paddle_wheel-1'], ), size=2.0)
+mdb.models['Mesh2'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh2'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.Job(atTime=None, contactPrint=OFF, description='Size: 2', echoPrint=OFF, 
+    explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, 
+    memory=90, memoryUnits=PERCENTAGE, model='Mesh2', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Job-2', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.jobs['Job-2'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-2']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Size: 2', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Users\\gmbra\\Downloads\\Senior First Semester\\FEA\\Homework 4\\Abaqus\\Job-2.odb', 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 14764, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-2', 'memory': 285.0})
+mdb.jobs['Job-2']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MINIMUM_MEMORY, {'minimum_memory': 51.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-2', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-2']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(JOB_COMPLETED, {'time': 'Sun Mar 13 21:47:07 2022', 
+    'jobName': 'Job-2'})
+mdb.Model(name='Mesh3', objectToCopy=mdb.models['Mesh2'])
+mdb.models['Mesh3'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Mesh3'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh3'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh3'].rootAssembly.instances['paddle_wheel-1'], ), size=1.0)
+mdb.models['Mesh3'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh3'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.Job(atTime=None, contactPrint=OFF, description='Size: 1', echoPrint=OFF, 
+    explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, 
+    memory=90, memoryUnits=PERCENTAGE, model='Mesh3', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Job-3', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.jobs['Job-3'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-3']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Size: 1', 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Users\\gmbra\\Downloads\\Senior First Semester\\FEA\\Homework 4\\Abaqus\\Job-3.odb', 
+    'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 43620, 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-3', 'memory': 1337.0})
+mdb.jobs['Job-3']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(MINIMUM_MEMORY, {'minimum_memory': 183.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-3', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-3']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-3'})
+mdb.jobs['Job-3']._Message(JOB_COMPLETED, {'time': 'Sun Mar 13 21:49:22 2022', 
+    'jobName': 'Job-3'})
+mdb.Model(name='Mesh4', objectToCopy=mdb.models['Mesh3'])
+mdb.models['Mesh4'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh4'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ), size=0.75)
+mdb.models['Mesh4'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh4'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh4'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ), size=0.5)
+mdb.models['Mesh4'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh4'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.models['Mesh4'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ), size=0.75)
+mdb.models['Mesh4'].rootAssembly.generateMesh(regions=(
+    mdb.models['Mesh4'].rootAssembly.instances['paddle_wheel-1'], ))
+mdb.Job(atTime=None, contactPrint=OFF, description='Size: 0.75', echoPrint=OFF, 
+    explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, 
+    memory=90, memoryUnits=PERCENTAGE, model='Mesh4', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Job-4', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.jobs['Job-4'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-4']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(HEADING, {'phase': BATCHPRE_PHASE, 
+    'heading': 'Size: 0.75', 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Users\\gmbra\\Downloads\\Senior First Semester\\FEA\\Homework 4\\Abaqus\\Job-4.odb', 
+    'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 32812, 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-4', 'memory': 3712.0})
+mdb.jobs['Job-4']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(MINIMUM_MEMORY, {'minimum_memory': 428.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-4', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-4']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-4'})
+mdb.jobs['Job-4']._Message(JOB_COMPLETED, {'time': 'Sun Mar 13 21:59:30 2022', 
+    'jobName': 'Job-4'})
+# Save by gmbra on 2022_03_13-22.02.04; build 2021 2020_03_06-08.50.37 167380
