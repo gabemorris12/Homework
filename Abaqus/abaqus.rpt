@@ -1,0 +1,25 @@
+********************************************************************************
+Probe Values Report, written on Mon Mar 14 14:42:24 2022
+
+Source
+-------
+
+   ODB: C:/Users/gmbra/Downloads/Senior First Semester/FEA/Homework 4/Abaqus/Job-2.odb
+   Step: Step-1
+   Frame: Increment      1: Step Time =    1.000
+   Variable: S, Mises (Not averaged)
+
+Loc 1 : Integration point values
+
+Probe values reported at integration points
+
+  Part Instance  Element ID        Type  Attached nodes
+--------------------------------------------------------------------------------
+  NUMBER_3-1        1797       C3D8R        2314         290         289        2158       23651       11509       11510       23495
+
+
+  Part Instance  Element ID        Type        Int. Pt.        S, Mises
+--------------------------------------------------------------------------------
+  NUMBER_3-1        1797       C3D8R               1     6.99487E+03
+
+

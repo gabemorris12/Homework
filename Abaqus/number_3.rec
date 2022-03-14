@@ -1,0 +1,22 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+#* Unable to start analysis job
+#* Abaqus Error: Detected lock file Job-1.lck. Please confirm that no other 
+#* applications are attempting to write to the output database associated with 
+#* this job before removing the lock file and resubmitting.
+#* Abaqus/Analysis exited with error(s).
+#* 
+del mdb.jobs['Job-1']

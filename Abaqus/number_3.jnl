@@ -1,0 +1,114 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.openStep(
+    'C:/Users/gmbra/Downloads/Senior First Semester/FEA/Homework 4/Abaqus/number_3.STEP'
+    , scaleFromFile=OFF)
+mdb.models['Model-1'].PartFromGeometryFile(combine=False, dimensionality=
+    THREE_D, geometryFile=mdb.acis, name='number_3', type=DEFORMABLE_BODY)
+mdb.models['Model-1'].Material(name='Material-1')
+mdb.models['Model-1'].materials['Material-1'].Elastic(table=((10000.0, 0.35), 
+    ))
+mdb.models['Model-1'].HomogeneousSolidSection(material='Material-1', name=
+    'Section-1', thickness=0.4)
+mdb.models['Model-1'].parts['number_3'].Set(cells=
+    mdb.models['Model-1'].parts['number_3'].cells.getSequenceFromMask(('[#1 ]', 
+    ), ), name='Set-1')
+mdb.models['Model-1'].parts['number_3'].SectionAssignment(offset=0.0, 
+    offsetField='', offsetType=MIDDLE_SURFACE, region=
+    mdb.models['Model-1'].parts['number_3'].sets['Set-1'], sectionName=
+    'Section-1', thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].parts['number_3'].DatumPlaneByPrincipalPlane(offset=0.0, 
+    principalPlane=YZPLANE)
+mdb.models['Model-1'].rootAssembly.DatumCsysByDefault(CARTESIAN)
+mdb.models['Model-1'].rootAssembly.Instance(dependent=OFF, name='number_3-1', 
+    part=mdb.models['Model-1'].parts['number_3'])
+mdb.models['Model-1'].StaticStep(name='Step-1', previous='Initial')
+mdb.models['Model-1'].rootAssembly.PartitionEdgeByPoint(edge=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[4], point=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[4], 
+    MIDDLE))
+mdb.models['Model-1'].rootAssembly.PartitionEdgeByPoint(edge=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[15], 
+    point=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[15], 
+    MIDDLE))
+mdb.models['Model-1'].rootAssembly.PartitionFaceByShortestPath(faces=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].faces.getSequenceFromMask(
+    ('[#8 ]', ), ), point1=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].vertices[5], 
+    point2=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].vertices[14])
+mdb.models['Model-1'].rootAssembly.PartitionFaceByShortestPath(faces=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].faces.getSequenceFromMask(
+    ('[#200 ]', ), ), point1=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[13], 
+    MIDDLE), point2=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[18], 
+    MIDDLE))
+mdb.models['Model-1'].rootAssembly.PartitionFaceByShortestPath(faces=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].faces.getSequenceFromMask(
+    ('[#80 ]', ), ), point1=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[25], 
+    MIDDLE), point2=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[14], 
+    MIDDLE))
+mdb.models['Model-1'].rootAssembly.PartitionFaceByShortestPath(faces=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].faces.getSequenceFromMask(
+    ('[#200 ]', ), ), point1=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[19], 
+    MIDDLE), point2=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[28], 
+    MIDDLE))
+del mdb.models['Model-1'].parts['number_3'].features['Datum plane-1']
+mdb.models['Model-1'].rootAssembly.regenerate()
+mdb.models['Model-1'].rootAssembly.Set(faces=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].faces.getSequenceFromMask(
+    ('[#3 ]', ), ), name='Set-1')
+mdb.models['Model-1'].EncastreBC(createStepName='Step-1', localCsys=None, name=
+    'BC-1', region=mdb.models['Model-1'].rootAssembly.sets['Set-1'])
+del mdb.models['Model-1'].boundaryConditions['BC-1']
+mdb.models['Model-1'].rootAssembly.Set(edges=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges.getSequenceFromMask(
+    ('[#20 ]', ), ), faces=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].faces.getSequenceFromMask(
+    ('[#3 ]', ), ), name='BC')
+mdb.models['Model-1'].EncastreBC(createStepName='Initial', localCsys=None, 
+    name='BC-1', region=mdb.models['Model-1'].rootAssembly.sets['BC'])
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-1', side1Faces=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].faces.getSequenceFromMask(
+    ('[#1008 ]', ), ))
+mdb.models['Model-1'].SurfaceTraction(createStepName='Step-1', directionVector=
+    (
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[20], 
+    MIDDLE), 
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].vertices[18]), 
+    distributionType=UNIFORM, field='', localCsys=None, magnitude=4854.0, name=
+    'Load-1', region=mdb.models['Model-1'].rootAssembly.surfaces['Surf-1'], 
+    traction=GENERAL)
+mdb.models['Model-1'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'], ), size=0.0625)
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'], ))
+# Save by gmbra on 2022_03_14-13.35.37; build 2021 2020_03_06-08.50.37 167380
