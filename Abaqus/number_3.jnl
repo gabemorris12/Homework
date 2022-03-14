@@ -112,3 +112,133 @@ mdb.models['Model-1'].rootAssembly.seedPartInstance(deviationFactor=0.1,
 mdb.models['Model-1'].rootAssembly.generateMesh(regions=(
     mdb.models['Model-1'].rootAssembly.instances['number_3-1'], ))
 # Save by gmbra on 2022_03_14-13.35.37; build 2021 2020_03_06-08.50.37 167380
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].rootAssembly.DatumPlaneByPrincipalPlane(offset=0.0, 
+    principalPlane=YZPLANE)
+del mdb.models['Model-1'].rootAssembly.features['Datum plane-1']
+mdb.Job(atTime=None, contactPrint=OFF, description='', echoPrint=OFF, 
+    explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, 
+    memory=90, memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Job-1', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-1']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FOR TWO-DIMENSIONAL MODELS, IF A NON-UNITY THICKNESS IS SPECIFIED FOR TWO-DIMENSIONAL SOLID ELEMENTS AND THESE ELEMENTS ARE INVOLVED IN AN INTERACTION SUCH AS CONTACT, THE SAME THICKNESS SHOULD BE SPECIFIED FOR THE OUT-OF-PLANE THICKNESS OF THE CORRESPONDING SURFACE UNDER *SURFACE INTERACTION.', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Users\\gmbra\\Downloads\\Senior First Semester\\FEA\\Homework 4\\Abaqus\\Job-1.odb', 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 43412, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-1', 'memory': 1239.0})
+mdb.jobs['Job-1']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(MINIMUM_MEMORY, {'minimum_memory': 183.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-1', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-1']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-1'})
+mdb.jobs['Job-1']._Message(JOB_COMPLETED, {'time': 'Mon Mar 14 13:42:38 2022', 
+    'jobName': 'Job-1'})
+mdb.models['Model-1'].rootAssembly.DatumPlaneByPrincipalPlane(offset=0.0, 
+    principalPlane=YZPLANE)
+mdb.models['Model-1'].rootAssembly.deleteMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlaneThreePoints(cells=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), point1=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[28], 
+    MIDDLE), point2=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[33], 
+    MIDDLE), point3=
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'].edges[20], 
+    MIDDLE))
+del mdb.models['Model-1'].rootAssembly.features['Datum plane-1']
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'], ))
+mdb.models['Model-1'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'], ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['number_3-1'], ))
+mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+#* Unable to start analysis job
+#* Abaqus Error: Detected lock file Job-1.lck. Please confirm that no other 
+#* applications are attempting to write to the output database associated with 
+#* this job before removing the lock file and resubmitting.
+#* Abaqus/Analysis exited with error(s).
+#* 
+mdb.Job(atTime=None, contactPrint=OFF, description='', echoPrint=OFF, 
+    explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, 
+    memory=90, memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Job-2', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, queue=None, resultsFormat=ODB, scratch='', type=
+    ANALYSIS, userSubroutine='', waitHours=0, waitMinutes=0)
+mdb.jobs['Job-2'].submit(consistencyChecking=OFF)
+mdb.jobs['Job-2']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'FOR TWO-DIMENSIONAL MODELS, IF A NON-UNITY THICKNESS IS SPECIFIED FOR TWO-DIMENSIONAL SOLID ELEMENTS AND THESE ELEMENTS ARE INVOLVED IN AN INTERACTION SUCH AS CONTACT, THE SAME THICKNESS SHOULD BE SPECIFIED FOR THE OUT-OF-PLANE THICKNESS OF THE CORRESPONDING SURFACE UNDER *SURFACE INTERACTION.', 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'C:\\Users\\gmbra\\Downloads\\Senior First Semester\\FEA\\Homework 4\\Abaqus\\Job-2.odb', 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'Dell-XPS-15', 'handle': 18704, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-2', 'memory': 1237.0})
+mdb.jobs['Job-2']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16236.0, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(MINIMUM_MEMORY, {'minimum_memory': 183.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 1, 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(STATUS, {'totalTime': 1.0, 'attempts': 1, 
+    'timeIncrement': 1.0, 'increment': 1, 'stepTime': 1.0, 'step': 1, 
+    'jobName': 'Job-2', 'severe': 0, 'iterations': 1, 'phase': STANDARD_PHASE, 
+    'equilibrium': 1})
+mdb.jobs['Job-2']._Message(END_STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-2'})
+mdb.jobs['Job-2']._Message(JOB_COMPLETED, {'time': 'Mon Mar 14 14:37:33 2022', 
+    'jobName': 'Job-2'})
+# Save by gmbra on 2022_03_14-14.54.46; build 2021 2020_03_06-08.50.37 167380
