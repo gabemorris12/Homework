@@ -29,7 +29,7 @@ print(f'Mode 1: {mode1:.3f}')
 print(f'Mode 2: {mode2:.3f}')
 
 # Plot the mode shapes across a range of natural frequencies
-w_range = np.linspace(10, 34, 1000)
+w_range = np.linspace(min([w1, w2]) - 0.5, max([w1, w2]) + 0.5, 1000)
 plt.plot(w_range, mode_shape(w_range), zorder=2)
 plt.scatter(w1, mode1, marker='o', label='Mode 1', zorder=3, color='black')
 plt.scatter(w2, mode2, marker='s', label='Mode 2', zorder=3, color='black')
