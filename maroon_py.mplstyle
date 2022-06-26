@@ -1,5 +1,5 @@
 # Python Scripts Default Style
-axes.prop_cycle: cycler('color', ['maroon', 'black', 'deepskyblue', 'darkgrey', '000080', '008000', '008080', '808000', '804000'])
+axes.prop_cycle: cycler('color', ['maroon', 'black', 'darkgrey', 'deepskyblue', '000080', '008000', '008080', '808000', '804000'])
 axes.grid: true
 
 savefig.dpi: 240
