@@ -1,0 +1,88 @@
+((* extends "index.tex.j2" *))
+
+((* block packages *))
+    ((( super() )))
+    \usepackage{fancyhdr}
+    \usepackage{titlesec}
+((* endblock packages *))
+
+((* block commands *))
+    ((( super() )))
+
+    % Define the default header style
+    \fancypagestyle{plain}{
+        \fancyhf{} % Clear all header and footer fields for plain style
+        \fancyfoot[C]{\thepage} % Footer for the plain style
+        \renewcommand{\headrulewidth}{0pt} % No header line for the plain style
+    }
+
+    % Define the fancyheader style
+    \fancypagestyle{fancyheader}{
+        \fancyhf{} % clear all header and footer fields
+        \fancyhead[L]{DIS 7000\\} % Left header
+        \fancyhead[C]{Homework 1\\} % Center header
+        \fancyhead[R]{Gabe Morris\\gnm54\vspace{0.005in}} % Right header
+        \fancyfoot[C]{\thepage} % Footer
+        \renewcommand{\headrulewidth}{0.4pt} % Line under the header
+        \setlength{\headsep}{0.4in}
+    }
+
+    % Set the default page style to plain to only include the footer
+    \pagestyle{plain}
+
+    \definecolor{maroon}{RGB}{128,0,0}
+    \titleformat{\section}
+      {\normalfont\Large\bfseries\color{maroon}} % Format of the section
+      {\thesection}{1em}{} % Format of the section label
+
+    \titleformat{\subsection}
+      {\normalfont\large\bfseries\color{maroon}} % Similarly, for subsections
+      {\thesubsection}{1em}{}
+
+    \titleformat{\subsubsection}
+      {\normalfont\normalsize\bfseries\color{maroon}} % And for subsubsections
+      {\thesubsubsection}{1em}{}
+((* endblock commands *))
+
+((* block abstract *))
+\begin{center}
+Gabe Morris
+\end{center}
+
+\setcounter{secnumdepth}{0}
+((* endblock abstract *))
+
+((* block markdowncell scoped *))
+    ((* if "# npb" not in nb.cells[0].source *))
+        ((* set modified_source = cell.source | replace("\n# ", "\n\n\\pagebreak\n\\thispagestyle{fancyheader}\n\n# ") *))
+
+        ((* if modified_source[:2] == "# " *))
+            ((* set modified_source = "\n\n\\pagebreak\n\\thispagestyle{fancyheader}\n\n" ~ modified_source *))
+        ((* endif *))
+
+    ((* else *))
+        ((* set modified_source = cell.source *))
+    ((* endif *))
+    ((( modified_source | citation2latex | strip_files_prefix | convert_pandoc('markdown+tex_math_double_backslash', 'json',extra_args=[]) | resolve_references | convert_explicitly_relative_paths | convert_pandoc('json','latex') )))
+((* endblock markdowncell *))
+
+((* set encountered_first_code_cell = false *))
+
+((* block any_cell *))
+
+    ((( super() )))
+
+    ((* if "# toc" in cell.source and encountered_first_code_cell == false *))
+    \pagebreak
+    \tableofcontents
+    ((* set encountered_first_code_cell = true *))
+    ((* endif *))
+
+((* endblock any_cell *))
+
+((* block definitions *))
+    ((( super() )))
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{RGB}{0,0,0}
+    \definecolor{citecolor}{RGB}{128,0,0}
+((* endblock definitions *))
